@@ -17,8 +17,10 @@
 @property (assign, nonatomic) CGFloat imageNormalWidth; // 图片未缩放时宽度
 @property (assign, nonatomic) CGFloat imageNormalHeight; // 图片未缩放时高度
 
+
 //重置回原样
 - (void)resetUI;
+
 
 //缩放方法，共外界调用
 - (void)pictureZoomWithScale:(CGFloat)zoomScale;
