@@ -41,7 +41,7 @@
         
     }
     
-    
+    self.automaticallyAdjustsScrollViewInsets = NO;
     WSLPictureBrowseView * browseView = [[WSLPictureBrowseView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     browseView.backgroundColor = [UIColor blackColor];
 //    browseView.urlArray = urlArray;

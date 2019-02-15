@@ -250,9 +250,13 @@
     if (_scrollView == nil) {
         
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-        _scrollView.backgroundColor = [UIColor clearColor];
         _scrollView.delegate = self;
         _scrollView.backgroundColor = [UIColor blackColor];
+        if (@available(iOS 11.0, *)) {
+            _scrollView.contentInsetAdjustmentBehavior =  UIScrollViewContentInsetAdjustmentNever;
+        } else {
+            // Fallback on earlier versions
+        }
         _scrollView.pagingEnabled = YES;
     }
     

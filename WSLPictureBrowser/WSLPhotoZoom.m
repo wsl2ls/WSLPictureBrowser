@@ -18,45 +18,41 @@
         self.maximumZoomScale = 2.0f;
         _imageNormalHeight = frame.size.height;
         _imageNormalWidth = frame.size.width;
-        
         self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        self.imageView.contentMode = UIViewContentModeScaleToFill;
         self.imageView.userInteractionEnabled = YES;
         self.imageView.clipsToBounds = YES;
         [self addSubview:self.imageView];
+        if (@available(iOS 11.0, *)) {
+            self.contentInsetAdjustmentBehavior =  UIScrollViewContentInsetAdjustmentNever;
+        } else {
+            // Fallback on earlier versions
+        }
+        
     }
     return self;
 }
 
 - (void)drawRect:(CGRect)rect{
-
-    
+    [super drawRect:rect];
 }
 
 #pragma mark -- Help Methods
 
-- (void)resetUI{
-    
-    self.contentSize = CGSizeMake( self.imageNormalWidth, self.imageNormalHeight);
-    self.imageView.frame = CGRectMake(0, 0, self.imageNormalWidth, self.imageNormalHeight);
-    
-}
-
 - (void)pictureZoomWithScale:(CGFloat)zoomScale{
-    
     // 延中心点缩放
     CGFloat imageScaleWidth = zoomScale * self.imageNormalWidth;
     CGFloat imageScaleHeight = zoomScale * self.imageNormalHeight;
-    
-    self.contentSize = CGSizeMake( imageScaleWidth, imageScaleHeight);
-    
     CGFloat imageX = 0;
     CGFloat imageY = 0;
-
-    imageX = floorf((self.frame.size.width - imageScaleWidth) / 2.0);
-    imageY = floorf((self.frame.size.height - imageScaleHeight) / 2.0);
-
+    if (imageScaleWidth < self.frame.size.width) {
+        imageX = floorf((self.frame.size.width - imageScaleWidth) / 2.0);
+    }
+    if (imageScaleHeight < self.frame.size.height) {
+        imageY = floorf((self.frame.size.height - imageScaleHeight) / 2.0);
+    }
     self.imageView.frame = CGRectMake(imageX, imageY, imageScaleWidth, imageScaleHeight);
+    self.contentSize = CGSizeMake(imageScaleWidth,imageScaleHeight);
 }
 
 
@@ -95,17 +91,15 @@
     // 延中心点缩放
     CGFloat imageScaleWidth = scrollView.zoomScale * self.imageNormalWidth;
     CGFloat imageScaleHeight = scrollView.zoomScale * self.imageNormalHeight;
-    
     CGFloat imageX = 0;
     CGFloat imageY = 0;
-//    if (imageScaleWidth < self.frame.size.width) {
+    if (imageScaleWidth < self.frame.size.width) {
         imageX = floorf((self.frame.size.width - imageScaleWidth) / 2.0);
-//    }
-//    if (imageScaleHeight < self.frame.size.height) {
+    }
+    if (imageScaleHeight < self.frame.size.height) {
         imageY = floorf((self.frame.size.height - imageScaleHeight) / 2.0);
-//    }
+    }
     self.imageView.frame = CGRectMake(imageX, imageY, imageScaleWidth, imageScaleHeight);
-    
 }
 
 @end
